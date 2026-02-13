@@ -1,1 +1,57 @@
+Comandos utilizados, práctica laboratorio 2.3 Administración de Discos y Almacenamiento en Rocky Linux
 
+============================================
+
+
+
+#Listamos los discos y particiones existentes en la máquina:
+
+lsblk
+
+#Luego de agregar el nuevo disco desde las configuraciones de la máquina, utilizamos el comando fdisk para crear una partición en el disco:
+
+sudo fdisk /dev/nvme0n2
+
+#Dentro de la herramienta fdisk, seguimos las siguientes configuraciones:
+
+n       # nueva partición
+p       # tipo primaria
+[Enter] # aceptar número de partición por defecto
+[Enter] # aceptar sector inicial por defecto
+[Enter] # aceptar sector final por defecto
+w       # guardar y salir
+
+#Listamos nuevamente los discos para verificar la partición creada:
+
+lsblk 
+
+#Formateamos la partición como ext4:
+
+sudo mkfs.ext4 /dev/nvme0n2p1
+
+#Creamos una carpeta en el escritorio y montamos el disco:
+
+cd ~/Desktop
+
+mkdir MiDisco
+
+sudo mount /dev/nvme0n2p1 ~/Desktop/MiDisco
+
+#Creamos el archivo de texto "AdrianAlcantara" dentro de la carpeta que contiene el disco:
+
+cd MiDisco
+
+sudo touch AdrianAlcantara.txt
+
+#Salimos de la ubicación y desmontamos el disco:
+
+cd ~
+sudo umount ~/Desktop/MiDisco
+
+#Ahora montamos el disco en otra localización, la /mnt
+
+sudo mount /dev/nvme0n2p1 /mnt
+
+#Verificamos que el archivo de texto AdrianAlcantara.txt siga ahí:
+
+ls /mnt
