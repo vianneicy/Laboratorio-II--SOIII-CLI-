@@ -1,0 +1,42 @@
+Comandos utilizados, práctica laboratorio 2.2 Automatización de tareas en Rocky Linux.
+
+============================================
+
+
+
+#  Abrimos el archivo crontab para plasmar nuestra primera tarea:
+
+sudo crontab -e
+
+# Línea de configuración de la tarea (actualizar el sistema todos los días a las 11 pm)
+
+0 23 * * * dnf update -y
+
+# Línea de configuración de la segunda tarea (reiniciar el sistema todos los domingos a las 3 am)
+
+0 3 * * 0 /sbin/shutdown -f now
+
+# Presionamos esc y escribimos el comando para guardar y salir:
+
+:wq
+
+# Comandos para habilitar la herramienta AT:
+
+sudo systemctl start atd
+sudo systemctl enable atd
+
+# Ver el contenido de los archivos temporales:
+
+ls /tmp
+
+# Crear un trabajo con la herramienta AT (eliminar contenido de los archivos temporales en 1 minuto)
+
+echo "rm -rf /tmp/* | at now + 1 minute
+
+# (EXTRA) Configurar un trabajo con la herramienta AT para crear un archivo de texto en la carpeta de archivos temporales:
+
+echo "touch /tmp/PRUEBA.txt" | at now + 1 minute
+
+# Luego de un minuto, comprobamos que la carpeta esté limpia:
+
+ls /tmp
